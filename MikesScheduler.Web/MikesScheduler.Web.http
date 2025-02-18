@@ -1,6 +1,6 @@
 @MikesScheduler.Web_HostAddress = http://localhost:5062
 
-GET {{MikesScheduler.Web_HostAddress}}/weatherforecast/
+GET {{MikesScheduler.Web_HostAddress}}/api/auth/
 Accept: application/json
 
 ###

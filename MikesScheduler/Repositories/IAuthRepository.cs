@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace MikesScheduler.Repositories;
 
-namespace MikesScheduler.Repositories
+public interface IAuthRepository
 {
-    public interface IAuthRepository
-    {
-        public Task<Auth> Login(string username, string password);
-    }
+    public Task<Auth> Login(string username, string password);
 }
