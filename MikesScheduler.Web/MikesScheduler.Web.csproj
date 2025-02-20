@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MikesScheduler.USchedule\MikesScheduler.USchedule.csproj" />
     <ProjectReference Include="..\MikesScheduler\MikesScheduler.csproj" />
   </ItemGroup>
 

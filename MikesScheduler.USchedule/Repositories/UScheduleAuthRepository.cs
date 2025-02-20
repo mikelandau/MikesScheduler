@@ -1,17 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
 using MikesScheduler.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MikesScheduler.USchedule.Repositories;
 
-public class UScheduleAuthRepository(ILogger logger) : IAuthRepository
+public class UScheduleAuthRepository(ILogger<UScheduleAuthRepository> logger) : IAuthRepository
 {
 
     private Cookie GetCookie(CookieContainer cookieContainer, Uri uri, string name)
@@ -35,21 +29,22 @@ public class UScheduleAuthRepository(ILogger logger) : IAuthRepository
         var uri = new Uri("https://clients.uschedule.com/kendallacademy/account/login");
 
         // load the login page to save the __RequestVerificationToken cookie
-        var loginPageResponse = await client.GetAsync("account/login");
+        var loginPageResponse = await client.GetAsync(uri);
 
         var requestVerificationToken = GetCookie(cookieContainer, uri, "__RequestVerificationToken");
 
-        var loginRequest = new UScheduleLoginRequest(
-            RequestVerificationToken: requestVerificationToken.Value,
-            Alias: "kendallacademy",
-            UserName: username,
-            Password: password,
-            RememberMe: false
-        );
+        logger.LogWarning("Got __RequestVerificationToken {TokenValue}", requestVerificationToken.Value);
 
-        var loginRequstJson = JsonContent.Create(loginRequest);
-        
-        var loginResponse = await client.PostAsync(uri, loginRequstJson);
+        var uScheduleLoginRequest = new List<KeyValuePair<string, string>>
+        {
+            new("__RequestVerificationToken", requestVerificationToken.Value),
+            new("Alias", "kendallacademy"),
+            new("UserName", username),
+            new("Password", password),
+            new("RememberMe", "false")
+        };
+
+        var loginResponse = await client.PostAsync(uri, new FormUrlEncodedContent(uScheduleLoginRequest));
 
         var aspnetSessionId = GetCookie(cookieContainer, uri, "ASP.NET_SessionId");
 

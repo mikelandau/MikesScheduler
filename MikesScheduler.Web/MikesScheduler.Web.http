@@ -1,6 +1,6 @@
 @MikesScheduler.Web_HostAddress = http://localhost:5062
 
-GET {{MikesScheduler.Web_HostAddress}}/api/auth/
+GET {{MikesScheduler.Web_HostAddress}}/api/auth?username=mnlandau90@gmail.com&password=yn5pJRND.eXnNKy
 Accept: application/json
 
 ###
